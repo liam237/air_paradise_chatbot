@@ -1,0 +1,18 @@
+# Ignorer les datasets locaux
+data/raw/flights.csv
+data/cleaned/dataset_cleaned.csv
+data/enriched/dataset_vols_enrichi.csv
+
+# Ignorer les fichiers de cache et Power BI
+data/prices_cache.db
+data/flights_analysis.pbix
+
+# Ignorer les modèles ML sauvegardés
+models/*.pkl
+
+# Ignorer les fichiers temporaires et logs
+__pycache__/
+*.log
+
+# Ignorer l'environnement virtuel
+venv/

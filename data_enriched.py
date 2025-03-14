@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-DATASET_PATH = "D:/Projet_AirParadise/air_paradise_chatbot/data/cleaned/data_cleaned.csv"
+DATASET_PATH = "D:/Projet_AirParadise/air_paradise_chatbot/data/cleaned/dataset_cleaned.csv"
 df = pd.read_csv(DATASET_PATH)
 
 #  Liste des aéroports avec une forte demande (plus chers en moyenne)
@@ -57,5 +57,5 @@ print(f"[INFO] Prix générés et enregistrés dans {PRICES_PATH}")
 
 import pandas as pd
 import numpy as np
-df = pd.read_csv("D:/Projet_AirParadise/air_paradise_chatbot/data/enriched/data_enriched.csv")
+df = pd.read_csv("D:/Projet_AirParadise/air_paradise_chatbot/data/enriched/dataset_enriched.csv")
 print(df.describe())

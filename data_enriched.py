@@ -10,7 +10,7 @@ big_airports = ["JFK", "LAX", "ORD", "DFW", "ATL", "MIA", "SFO", "SEA", "DEN", "
 
 # Fonction améliorée pour générer un prix réaliste
 def generate_price(row):
-    base_price = (row["DISTANCE"] * 0.12) + (row["ELAPSED_TIME"] * 0.5)  # Distance et durée influencent le prix
+    base_price = (row["DISTANCE"] * 0.12) + (row["SCHEDULED_TIME"] * 0.5)  # Distance et durée influencent le prix
 
     # Facteur saisonnier (haute saison)
     saison_factor = 1.2 if row["MONTH"] in [6, 7, 8, 12] else 1.0  
@@ -29,8 +29,11 @@ def generate_price(row):
     week_factor = 1.15 if row["DAY_OF_WEEK"] in [5, 7] else 1.0  
 
     # Facteur heure de départ (vols matin et soir plus chers)
-    hour = int(row["SCHEDULED_DEPARTURE"].split(":")[0])
-    hour_factor = 1.1 if hour < 6 or hour > 20 else 1.0  
+    try:
+        hour = int(row["SCHEDULED_DEPARTURE"].split(":")[0])  # Extraire l'heure
+        hour_factor = 1.1 if hour < 6 or hour > 20 else 1.0  
+    except:
+        hour_factor = 1.0  # Valeur par défaut si problème de parsing
 
     # Facteur aéroport (grands aéroports plus chers)
     airport_factor = 1.2 if row["ORIGIN_AIRPORT"] in big_airports else 1.0  
@@ -38,8 +41,8 @@ def generate_price(row):
     # Facteur de dernière minute (vols dans les 7 jours)
     last_minute_factor = 1.3 if row["DAY"] <= 7 else 1.0  
 
-    # Facteur escales (vols directs plus chers)
-    stops_factor = 1.2 if row["DISTANCE"] > 2500 else 1.0  
+    # Facteur escales (basé sur le ratio Distance / Temps prévu)
+    stops_factor = 1.2 if (row["DISTANCE"] / row["SCHEDULED_TIME"]) < 10 else 1.0
 
     # Ajout d'une variation aléatoire réaliste
     random_factor = np.random.uniform(0.9, 1.2)  
@@ -50,8 +53,10 @@ def generate_price(row):
     # Limites pour éviter les valeurs absurdes
     if final_price < 50:  
         final_price = 50  
-    if final_price > 2000 and row["DISTANCE"] < 3000:  
+    elif final_price > 2000 and row["DISTANCE"] < 3000:  
         final_price = 2000  
+    elif final_price > 3000 and row["DISTANCE"] > 5000:  
+        final_price = 3000  # Ex: vols très longs (ex: Hawaï, Alaska)
 
     return round(final_price, 2)  
 
@@ -59,7 +64,11 @@ def generate_price(row):
 df["PRICE_USD"] = df.apply(generate_price, axis=1)
 
 # Sauvegarder le dataset avec les prix réalistes
-PRICES_PATH = "D:/Projet_AirParadise/air_paradise_chatbot/data/enriched/data_enriched_realistic.csv"
+PRICES_PATH = "D:/Projet_AirParadise/air_paradise_chatbot/data/enriched/data_enriched.csv"
 df.to_csv(PRICES_PATH, index=False)
 
 print(f"[INFO] Prix réalistes générés et enregistrés dans {PRICES_PATH}")
+
+# Vérification rapide
+df = pd.read_csv(PRICES_PATH)
+print(df[["DISTANCE", "SCHEDULED_TIME", "PRICE_USD"]].describe())

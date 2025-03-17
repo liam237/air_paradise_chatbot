@@ -1,7 +1,7 @@
 # Ignorer les datasets locaux
 data/raw/flights.csv
 data/cleaned/dataset_cleaned.csv
-data/enriched/dataset_vols_enrichi.csv
+data/enriched/dataset_enriched.csv
 
 # Ignorer les fichiers de cache et Power BI
 data/prices_cache.db

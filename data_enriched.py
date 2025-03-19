@@ -1,74 +1,78 @@
 import pandas as pd
 import numpy as np
 
-# Charger les données
+# Charger le dataset
 DATASET_PATH = "D:/Projet_AirParadise/air_paradise_chatbot/data/cleaned/dataset_cleaned.csv"
 df = pd.read_csv(DATASET_PATH)
+
+# Liste des compagnies standard (exclut low-cost et premium)
+standard_airlines = ["MQ", "EV", "OO", "HA", "WN", "US", "B6", "AS", "VX"]
+
+# Filtrer uniquement les vols des compagnies standard
+df_standard = df[df["AIRLINE"].isin(standard_airlines)].copy()
 
 # Liste des grands aéroports (plus chers en moyenne)
 big_airports = ["JFK", "LAX", "ORD", "DFW", "ATL", "MIA", "SFO", "SEA", "DEN", "BOS"]
 
 # Fonction améliorée pour générer un prix réaliste
 def generate_price(row):
-    base_price = (row["DISTANCE"] * 0.12) + (row["SCHEDULED_TIME"] * 0.5)  # Distance et durée influencent le prix
+    base_price = (row["DISTANCE"] * 0.12) + (row["SCHEDULED_TIME"] * 0.5)  
 
-    # Facteur saisonnier (haute saison)
+    # Facteur saisonnier
     saison_factor = 1.2 if row["MONTH"] in [6, 7, 8, 12] else 1.0  
 
-    # Facteur compagnie aérienne (low-cost vs premium)
-    low_cost = ["NK", "F9", "G4"]  # Spirit, Frontier, Allegiant
-    premium = ["AA", "DL", "UA"]  # American, Delta, United
-    if row["AIRLINE"] in low_cost:
-        airline_factor = 0.8  # -20% pour les low-cost
-    elif row["AIRLINE"] in premium:
-        airline_factor = 1.1  # +10% pour les compagnies premium
-    else:
-        airline_factor = 1.0  
-
-    # Facteur week-end (vendredi et dimanche plus chers)
+    # Facteur week-end
     week_factor = 1.15 if row["DAY_OF_WEEK"] in [5, 7] else 1.0  
 
-    # Facteur heure de départ (vols matin et soir plus chers)
+    # Facteur heure de départ
     try:
-        hour = int(row["SCHEDULED_DEPARTURE"].split(":")[0])  # Extraire l'heure
+        hour = int(row["SCHEDULED_DEPARTURE"].split(":")[0])
         hour_factor = 1.1 if hour < 6 or hour > 20 else 1.0  
     except:
-        hour_factor = 1.0  # Valeur par défaut si problème de parsing
+        hour_factor = 1.0  # Sécurité en cas d'erreur
 
-    # Facteur aéroport (grands aéroports plus chers)
-    airport_factor = 1.2 if row["ORIGIN_AIRPORT"] in big_airports else 1.0  
+    # Facteur aéroport
+    airport_factor = 1.15 if row["ORIGIN_AIRPORT"] in big_airports else 1.0  
 
-    # Facteur de dernière minute (vols dans les 7 jours)
+    # Facteur dernière minute
     last_minute_factor = 1.3 if row["DAY"] <= 7 else 1.0  
 
-    # Facteur escales (basé sur le ratio Distance / Temps prévu)
-    stops_factor = 1.2 if (row["DISTANCE"] / row["SCHEDULED_TIME"]) < 10 else 1.0
+    # Facteur escales basé sur la vitesse moyenne
+    speed = row["DISTANCE"] / row["SCHEDULED_TIME"] if row["SCHEDULED_TIME"] > 0 else np.nan
+    if speed < 8:
+        stops_factor = 1.3  # Vol avec au moins 1 escale
+    elif speed < 12:
+        stops_factor = 1.1  # Vol avec possible escale
+    else:
+        stops_factor = 1.0  # Vol direct
 
     # Ajout d'une variation aléatoire réaliste
     random_factor = np.random.uniform(0.9, 1.2)  
 
     # Appliquer les facteurs
-    final_price = base_price * saison_factor * airline_factor * week_factor * hour_factor * airport_factor * last_minute_factor * stops_factor * random_factor
+    final_price = base_price * saison_factor * week_factor * hour_factor * airport_factor * last_minute_factor * stops_factor * random_factor
 
     # Limites pour éviter les valeurs absurdes
-    if final_price < 50:  
-        final_price = 50  
-    elif final_price > 2000 and row["DISTANCE"] < 3000:  
-        final_price = 2000  
-    elif final_price > 3000 and row["DISTANCE"] > 5000:  
-        final_price = 3000  # Ex: vols très longs (ex: Hawaï, Alaska)
+    final_price = max(50, min(final_price, 2500))  
 
     return round(final_price, 2)  
 
-# Appliquer la fonction à chaque ligne du dataset
-df["PRICE_USD"] = df.apply(generate_price, axis=1)
+# Appliquer la fonction sur tout le dataset
+df_standard["PRICE_USD"] = df_standard.apply(generate_price, axis=1)
 
-# Sauvegarder le dataset avec les prix réalistes
+# Sauvegarde du dataset complet
 PRICES_PATH = "D:/Projet_AirParadise/air_paradise_chatbot/data/enriched/data_enriched.csv"
-df.to_csv(PRICES_PATH, index=False)
+df_standard.to_csv(PRICES_PATH, index=False)
 
-print(f"[INFO] Prix réalistes générés et enregistrés dans {PRICES_PATH}")
+print(f"[INFO] Génération des prix terminée Fichier enregistré : {PRICES_PATH}")
 
-# Vérification rapide
-df = pd.read_csv(PRICES_PATH)
+import pandas as pd
+import numpy as np
+
+# Charger le dataset
+import pandas as pd
+import numpy as np
+DATASET_PATH = "D:/Projet_AirParadise/air_paradise_chatbot/data/enriched/data_enriched.csv"
+df = pd.read_csv(DATASET_PATH)
 print(df[["DISTANCE", "SCHEDULED_TIME", "PRICE_USD"]].describe())
+print(df[df["PRICE_USD"] > 2000])

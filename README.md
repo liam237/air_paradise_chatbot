@@ -100,7 +100,7 @@ API_SECRET=VOTRE_SECRET_API_AMADEUS
 
 ---
 
-## 📜 Configuration de `.gitattributes`
+## Configuration de `.gitattributes`
 
 Un fichier `.gitattributes` est ajouté pour :
 - Gérer les fins de ligne (`LF` vs `CRLF`) pour éviter les conflits entre Windows et Linux.

@@ -16,3 +16,10 @@ __pycache__/
 
 # Ignorer l'environnement virtuel
 venv/
+
+# Ignorer les fichiers de configuration
+*.venv
+
+.streamlit/secrets.toml
+
+.env

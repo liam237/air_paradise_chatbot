@@ -1,183 +1,108 @@
-# Air Paradise Chatbot - Prédiction et Réservation de Vols
 
-## ✨ Introduction
+# Air Paradise – Flight Booking Chatbot
 
-Bienvenue dans le projet **Air Paradise Chatbot** ! Ce projet combine **Machine Learning, API Amadeus et un Chatbot** pour :
-
-1. **Prédire les prix des vols** basés sur un ensemble de données fourni.
-2. **Générer un dataset enrichi** avec les prix des vols.
-3. **Permettre la réservation de vols via un chatbot interactif**.
+**Air Paradise** est une application web intelligente permettant de rechercher, estimer et réserver des vols internes aux États-Unis à l’aide d’un chatbot propulsé par l’IA.
 
 ---
 
-## 📚 Structure du projet
+## Fonctionnalités principales
 
-```
-📎 air_paradise_chatbot
-├── 📂 data
-│   ├── raw/                      # Données brutes non traitées
-│   │   ├── dataset_vols.csv       # Dataset initial (sans prix)
-│   ├── cleaned/                   # Données après nettoyage
-│   │   ├── dataset_cleaned.csv     # Dataset nettoyé
-│   ├── enriched/                   # Données enrichies avec prix
-│   │   ├── dataset_vols_enrichi.csv
-│   ├── prices_cache.db             # Base SQLite pour stockage des prix
-├── 📂 notebooks
-│   ├── 01_exploration.ipynb        # Analyse exploratoire (EDA)
-│   ├── 02_preprocessing.ipynb      # Nettoyage et feature engineering
-│   ├── 03_model_training.ipynb     # Entraînement du modèle ML
-├── 📂 models
-│   ├── flight_price_model.pkl  # Modèle ML entraîné
-├── 📂 chatbot
-│   ├── chatbot.py              # Code du chatbot
-│   ├── intents.json            # Intentions du chatbot
-│   ├── actions.py              # Actions personnalisées
-├── 📂 api
-│   ├── fetch_prices.py         # Script pour collecter les prix via Amadeus
-│   ├── train_model.py          # Entraînement du modèle ML
-│   ├── predict_prices.py       # Prédiction des prix
-│   ├── db_cache.py             # Gestion du cache SQLite
-├── 📂 web_app
-│   ├── app.py                  # API Flask/FastAPI pour chatbot et prédictions
-│   ├── templates/
-│   │   ├── index.html          # Interface web utilisateur
-│   ├── static/
-│   │   ├── styles.css          # Styles CSS
-├── 📂 tests
-│   ├── test_fetch_prices.py    # Tests API Amadeus
-│   ├── test_chatbot.py         # Tests du chatbot
-│   ├── test_model.py           # Tests ML
-├── download_dataset.py         # Script pour télécharger le dataset depuis Google Drive
-├── .env                        # Variables d’environnement (API Keys)
-├── .gitattributes              # Configuration des attributs Git
-├── requirements.txt            # Librairies Python nécessaires
-├── README.md                   # Documentation du projet
-```
+- Chatbot multilingue (FR / EN) intelligent basé sur **Gemini AI**
+- Prédiction du prix de vol selon date, heure, aéroports, distance
+- Formulaire manuel alternatif de réservation
+- Génération de billet PDF avec QR Code
+- Envoi du billet par email
+- Sidebar FAQ avec recherche contextuelle
 
 ---
 
-## 🛠️ Installation
+## Technologies utilisées
 
-### 1. Cloner le projet
+###  Backend (API)
+- **FastAPI** : framework léger pour servir les prédictions
+- **Pydantic** : validation des entrées via `PredictionRequest`
+- **joblib** : chargement du modèle ML (`.pkl`)
+- **requests** : communication frontend/backend
 
-```bash
-git clone https://github.com/votre-repo/air_paradise_chatbot.git
-cd air_paradise_chatbot
+### Machine Learning
+- **scikit-learn** : modèle de régression
+- **category_encoders** : encodage hashing des aéroports
+- **pandas** : preprocessing & dataframe
+
+### Intelligence conversationnelle
+- **Google Generative AI (Gemini)** : extraction de slots conversationnels
+- **langdetect** + **dateparser** : pour comprendre l'utilisateur naturellement
+
+### Frontend (App)
+- **Streamlit** : framework pour l'interface utilisateur
+- **streamlit_extras** : `switch_page_button`, amélioration UX
+- **FPDF** / **qrcode** : génération de billets PDF avec QR code
+
+---
+
+## Arborescence simplifiée
+
 ```
-
-### 2. Récupérer le dataset depuis Google Drive
-
-Le dataset brut est stocké sur Google Drive. Pour le télécharger, utilisez le script `download_dataset.py` :
-
-```bash
-python download_dataset.py
-```
-
-Assurez-vous que le fichier est bien placé dans `data/raw/`.
-
-### 3. Créer un environnement virtuel
-
-```bash
-python -m venv venv
-source venv/bin/activate  # Mac/Linux
-venv\Scripts\activate  # Windows
-```
-
-### 4. Installer les dépendances
-
-```bash
-pip install -r requirements.txt
-```
-
-### 5. Configurer l'API Amadeus
-
-Créer un fichier `.env` et ajouter :
-
-```env
-API_KEY=VOTRE_CLE_API_AMADEUS
-API_SECRET=VOTRE_SECRET_API_AMADEUS
+air_paradise_chatbot
+ ┣ api/                      # Backend FastAPI
+ ┣ streamlit_app/           # App utilisateur (chatbot, interface, réservation)
+ ┣ data/                    # mapping + contexte + faq
+ ┣ models/                  # modèle ML exporté (.pkl)
+ ┣ notebooks/               # notebooks Jupyter (exploration, preprocessing, training)
+ ┣ tests/                   # fichiers de conversation sauvegardés
+ ┣ main.py                   # Point d'entrée API
+ ┗ README.md                 # Ce fichier
 ```
 
 ---
 
-## Configuration de `.gitattributes`
+## Démarrage rapide
 
-Un fichier `.gitattributes` est ajouté pour :
-- Gérer les fins de ligne (`LF` vs `CRLF`) pour éviter les conflits entre Windows et Linux.
-- Exclure certains fichiers binaires des différences (`diff`) Git.
-- Gérer les fichiers volumineux via Git LFS.
+### 1. Lancer l'API
+```bash
+uvicorn main:app --reload
+```
 
-Exemple de contenu du `.gitattributes` :
-
-```gitattributes
-# Normaliser les fins de ligne
-* text=auto
-
-# Ignorer les différences dans les fichiers binaires
-*.pkl binary
-*.pbix binary
-*.db binary
-
-# Gérer les fichiers volumineux avec Git LFS (si utilisé)
-*.csv filter=lfs diff=lfs merge=lfs -text
-*.json filter=lfs diff=lfs merge=lfs -text
+### 2. Lancer l’application
+```bash
+streamlit run streamlit_app/pages/home.py
 ```
 
 ---
 
-## 💡 Utilisation
+## Fichiers de prédiction utilisés
 
-### 1. Récupérer des prix avec l’API Amadeus
-
-```bash
-python api/fetch_prices.py
-```
-
-### 2. Entraîner le modèle Machine Learning
-
-```bash
-python api/train_model.py
-```
-
-### 3. Générer 5M de prix avec le modèle ML
-
-```bash
-python api/predict_prices.py
-```
-
-### 4. Lancer le chatbot
-
-```bash
-python chatbot/chatbot.py
-```
-
-### 5. Lancer l'interface web (API Flask)
-
-```bash
-python web_app/app.py
-```
-
-Accédez à `http://127.0.0.1:5000/` dans votre navigateur.
+Les notebooks suivants détaillent l’approche ML :
+- `01_exploration.ipynb` : visualisation initiale
+- `02_preprocessing.ipynb` : nettoyage + encodage
+- `Select_variables.ipynb` : sélection des features clés
+- `03_model_training.ipynb` : régression + évaluation
+- `04_mapping.ipynb` : enrichissement des aéroports
 
 ---
 
-## 🔧 Tests
+## Statut
 
-Lancer les tests unitaires :
-
-```bash
-pytest tests/
-```
+-  Fonctionnalités principales terminées
+-  Conversation sauvegardée dans `tests/conversations.csv`
+-  Code nettoyé et structuré
 
 ---
 
-## 🚀 Améliorations futures
+##  Idées futures
 
-- Ajouter des **options de paiement** directement via le chatbot.
-- Améliorer l’algorithme de prédiction des prix avec **XGBoost**.
-- Ajouter une interface utilisateur en **React.js**.
+- Connexion à une base de données pour réservations
+- Tableau de bord admin (Streamlit ou Dash)
+- Version vocale (Speech-to-Text)
+- Statistiques sur les demandes (analyse NLP)
 
 ---
 
-📢 **Félicitations, ton projet est maintenant fonctionnel !** 🚀
+##  Auteurs
+Fonkui william
+Temgoua carine
+Kenfack Ariol
 
+---
+
+**© Air Paradise 2025**

@@ -1,0 +1,24 @@
+👤 hello
+🤖 👋 Bonjour ! Comment puis-je vous aider à réserver un vol ?
+👤 je veux aller a los angeles 
+🤖 ✈️ Vol de ... (❓) à LAX (❓) à 12:00
+🤖 
+
+Voici ce que j'ai besoin pour continuer :
+- date de départ
+👤 chicago
+🤖 ✈️ Vol de ORD (❓) à LAX (❓) à ...
+🤖 
+
+Voici ce que j'ai besoin pour continuer :
+- date de départ
+- heure invalide (vols entre 04h et 23h uniquement)
+👤 je veux aller a los angeles a chicago le 30-05-2025
+🤖 ✈️ Vol de LAX (❓) à ORD (❓) le 2025-05-30
+🤖 
+
+Voici ce que j'ai besoin pour continuer :
+- heure de départ
+👤 12h
+🤖 ✈️ Vol de Chicago (ORD) à Los Angeles (LAX) le 2025-05-30 à 12:00
+🤖 💰 Prix estimé : **315.11 USD**

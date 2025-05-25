@@ -1,0 +1,14 @@
+👤 salut
+🤖 Salut ! Comment puis-je vous aider aujourd'hui avec Air Paradise ?
+
+👤 je veux voyager de new york a LA
+🤖 ✈️ Vol de New York (JFK) à Los Angeles (LAX) en Inconnue
+🤖 
+
+Voici ce que j'ai besoin pour continuer :
+- date de départ
+👤 26 juillet 2025
+🤖 ✈️ Vol de JFK (❓) à LAX (❓) le 2025-07-26 en indéterminée
+👤 a 15h
+🤖 ✈️ Vol de New York (JFK) à Los Angeles (LAX) le 2025-07-26 en midi
+🤖 💰 Prix estimé : **420.59 USD**

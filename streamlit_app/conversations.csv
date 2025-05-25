@@ -1,0 +1,28 @@
+2025-05-25T20:28:21.323433,user,salut
+2025-05-25T20:28:21.912798,user,salut
+2025-05-25T20:28:21.915913,assistant,👋 Hello! How can I help you book a flight?
+2025-05-25T20:28:21.917852,assistant,"Avez-vous d'autres questions ?
+
+🛆 Bagages
+🛫 Check-in
+🗘️ Documents requis
+📞 Support client"
+2025-05-25T20:28:51.744511,user,je veux un vol de new york a dallas
+2025-05-25T20:28:58.260071,user,je veux un vol de new york a dallas
+2025-05-25T20:28:58.265034,assistant,✈️ Vol de JFK → DAL
+2025-05-25T20:28:58.271074,assistant,"Voici ce qu'il me manque pour continuer :
+- date de départ
+- heure de départ"
+2025-05-25T20:29:06.288115,user,demain a 15h
+2025-05-25T20:29:07.792888,user,demain a 15h
+2025-05-25T20:29:07.795290,assistant,✈️ Vol de JFK → DAL le 2025-05-26 à 15:00
+2025-05-25T20:29:07.836117,assistant,"Avez-vous d'autres questions ?
+
+🛆 Bagages
+🛫 Check-in
+🗘️ Documents requis
+📞 Support client"
+2025-05-25T20:29:36.801020,user,ok
+2025-05-25T20:29:37.685930,user,ok
+2025-05-25T20:29:37.690760,assistant,✈️ Vol de JFK → DAL le 2025-05-26 à 15:00
+2025-05-25T20:29:37.839985,assistant,💰 Prix estimé : **486.46 USD**

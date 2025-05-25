@@ -1,0 +1,39 @@
+[bagages]
+FR: Chaque passager peut embarquer un bagage cabine de 10kg maximum. Les bagages en soute sont payants.
+EN: Each passenger can carry one cabin bag up to 10kg. Checked baggage requires an additional fee.
+
+[check-in]
+FR: Le check-in en ligne ouvre 24h avant le vol et ferme 1h avant le départ. Il peut être fait sur notre site.
+EN: Online check-in opens 24h before departure and closes 1h before. It can be completed on our website.
+
+[documents requis]
+FR: Une pièce d'identité ou un passeport valide est requis pour tous les vols, même internes.
+EN: A valid ID or passport is required for all flights, including domestic ones.
+
+[support client]
+FR: Vous pouvez nous contacter à l’adresse air.paradise.us@gmail.com pour toute question.
+EN: You can contact us at air.paradise.us@gmail.com for any inquiries.
+
+[vol pas cher]
+FR: Les prix sont plus bas pour les vols réservés en semaine, tôt le matin ou en dehors des vacances scolaires.
+EN: Prices are lower for flights booked on weekdays, early in the morning, or outside school holidays.
+
+[animaux]
+FR: Les animaux sont autorisés en cabine s’ils pèsent moins de 8kg et sont placés dans un sac souple.
+EN: Pets are allowed in the cabin if under 8kg and placed in a soft carrier.
+
+[modification]
+FR: Les billets peuvent être modifiés jusqu’à 48h avant le départ. Des frais peuvent s’appliquer.
+EN: Tickets can be modified up to 48h before departure. Fees may apply.
+
+[remboursement]
+FR: Aucun remboursement n’est possible sauf en cas d’annulation par la compagnie.
+EN: No refunds are available unless the flight is cancelled by the airline.
+
+[embarquement]
+FR: L’embarquement ferme 20 minutes avant le départ.
+EN: Boarding closes 20 minutes before departure.
+
+[fidélité]
+FR: 1 USD dépensé = 1 point de fidélité. Utilisable pour des remises.
+EN: 1 USD spent = 1 loyalty point. Usable for discounts.

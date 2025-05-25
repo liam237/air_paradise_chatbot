@@ -1,12 +1,1 @@
-# Normaliser les fins de ligne
-* text=auto
-
-# Ignorer les différences dans les fichiers binaires
-*.pkl binary
-*.pbix binary
-*.db binary
-# Gérer les fichiers volumineux avec Git LFS (si utilisé)
-*.csv filter=lfs diff=lfs merge=lfs -text
-*.json filter=lfs diff=lfs merge=lfs -text
-*.zip filter=lfs diff=lfs merge=lfs -text
 *.csv !text !filter !merge !diff

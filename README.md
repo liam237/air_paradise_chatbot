@@ -58,6 +58,11 @@ air_paradise_chatbot
 
 ## Démarrage rapide
 
+### Pour pouvoir obtenir les datatsets et modeles essentiels au lancement de notre chatbot, dont nous avons utilisés et qui sont stockés dans un Drive libre en accès pour tous pour pouvoir gerer le stockage, il  existe dans la structure de notre dossier un dossier */Script* dans lequel est contenu chaque fichier qui permet de telecharger et stocker dans le dossier */data* le fichier qui correspond. Il suffit de *run* chaque fichier python ou alors de taper la commande:
+```bash
+python run nom_du_fichier.py
+```
+
 ### 1. Lancer l'API
 ```bash
 uvicorn main:app --reload
